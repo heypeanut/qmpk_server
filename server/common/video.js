@@ -85,5 +85,6 @@ const subgroupArr = ['排位赛', '晋级赛', '赛区赛', '全国赛']
 
 
 module.exports = {
-  createVideo
+  createVideo,
+  schoolArr
 }

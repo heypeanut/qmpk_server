@@ -7,13 +7,14 @@ const {
   createVideo
 } = require('./common/video')
 const normalJSON = require('./common/jsonp')
+const {analysis} = require('./common/analysis')
 
 
-router.get('/', (ctx, next) => {
+router.get('/v0/', (ctx, next) => {
   ctx.body = '全民pk接口转发服务器启动成功！'
 });
 
-router.get('/list', async (ctx, next) => {
+router.get('/v0/list', async (ctx, next) => {
   const query = Object.assign({}, {
     callback: 'jQuery111307512338619122214_1567257922676',
     page: 1,
@@ -43,7 +44,7 @@ router.get('/list', async (ctx, next) => {
       ctx.body = await {
         status: true,
         data: datas,
-        newData:newData
+        // newData:newData
       }
     } else {
       ctx.body = await {
@@ -60,7 +61,7 @@ router.get('/list', async (ctx, next) => {
   }
 });
 
-router.get('/rank', async (ctx) => {
+router.get('/v0/rank', async (ctx) => {
   // console.log(ctx.query)
   const query = Object.assign({}, {
     callback: 'jQuery111306742324507357198_1567502000549',
@@ -80,7 +81,7 @@ router.get('/rank', async (ctx) => {
       }
     })
     data = normalJSON(data.data.replace('/**/', ''))
-    // console.log(data)
+    console.log(data)
     if (data.success) {
       ctx.body = await {
         status: true,
@@ -91,7 +92,8 @@ router.get('/rank', async (ctx) => {
     } else {
       ctx.body = await {
         status: -1,
-        code: '请求目标接口超时！'
+        code: '请求目标接口超时！',
+        msg:data.msg
       }
     }
   } catch (error) {
@@ -101,6 +103,25 @@ router.get('/rank', async (ctx) => {
       error: error
     }
   }
+})
+
+router.get('/v0/analysis',async (ctx)=>{
+  let data = []
+  data = await axios.get('http://localhost:3000/v0/list', {
+      params: {
+        team:ctx.query.team,
+        per_page:50
+      }
+    })
+  
+  const newDatas = analysis(data.data,name=ctx.query.team,year=ctx.query.year)
+  // console.log(data.data)
+
+  ctx.body = {
+    data:newDatas,
+    status:true
+  }
+
 })
 
 app
