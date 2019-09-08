@@ -107,7 +107,7 @@ router.get('/v0/rank', async (ctx) => {
 
 router.get('/v0/analysis',async (ctx)=>{
   let data = []
-  data = await axios.get('http://localhost:3000/v0/list', {
+  data = await axios.get('https://api.nnh206.vip/v0/list', {
       params: {
         team:ctx.query.team,
         per_page:50
