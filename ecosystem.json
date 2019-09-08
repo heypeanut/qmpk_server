@@ -1,0 +1,29 @@
+{
+  "apps":[
+      {
+          "name":"qmpk",
+          "script":"server/index.js",
+          "env":{
+              "COMMON_VARIABLE":"true"
+          },
+          "env_production":{
+              "NODE_ENV":"production"
+          }
+      }
+  ], 
+  "deploy":{
+      "production":{
+          "user":"hhs_manager",
+          "host":["47.104.225.220"],
+          "port":"7568",
+          "ref":"origin/master",
+          "repo":"git@github.com:heypeanut/qmpk_server.git",
+          "path":"/www/qmpk/production",
+          "ssh_options":"StrictHostKeyChecking=no",
+          "post-deploy":"npm install && pm2 startOrRestart ecosystem.json --env production",
+          "env":{
+              "NODE_ENV":"production"
+          }
+      }
+  }
+}
