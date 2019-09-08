@@ -129,6 +129,6 @@ app
   .use(router.allowedMethods());
 
 
-app.listen(3000, () => {
+app.listen(3007, () => {
   console.log('全民pk接口转发服务器启动成功！')
 });
